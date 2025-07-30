@@ -1826,8 +1826,7 @@ dq_without_spdats <- function(served_in_date_range, Funder, Scores, rm_dates, va
   if (is_app_env(app_env))
     app_env$set_parent(missing_fmls())
 
-  va_funded <-
-    Funder_ProjectIDs(Funder)
+  va_funded <- Funder_ProjectIDs(Funder)
 
   no_va <- served_in_date_range |>
     dplyr::anti_join(va_funded, by = "ProjectID")
@@ -1869,7 +1868,7 @@ dq_without_spdats <- function(served_in_date_range, Funder, Scores, rm_dates, va
            !WhenOccurred %in% c(1:3))
     ) |>
     dplyr::mutate(
-      Issue = "Non-DV HoHs Entering PH or TH without SPDAT",
+      Issue = "Non-DV HoHs Entering PH or TH without HARP or SPDAT",
       Type = "Warning",
       Guidance = guidance$ph_without_spdats
     ) |>
@@ -1889,7 +1888,7 @@ dq_without_spdats <- function(served_in_date_range, Funder, Scores, rm_dates, va
         EntryDate > rm_dates$hc$began_requiring_spdats
     ) |>
     dplyr::mutate(
-      Issue = "HoHs in shelter for 8+ days without SPDAT",
+      Issue = "HoHs in shelter for 8+ days without HARP or SPDAT",
       Type = "Warning",
       Guidance = guidance$lh_without_spdats
     ) |>
@@ -1909,7 +1908,7 @@ dq_without_spdats <- function(served_in_date_range, Funder, Scores, rm_dates, va
     ) |>
     dplyr::filter(RelationshipToHoH != 1) |>
     dplyr::mutate(
-      Issue = "SPDAT Created on a Non-Head-of-Household",
+      Issue = "HARP or SPDAT Created on a Non-Head-of-Household",
       Type = "Warning",
       Guidance = guidance$spdat_on_non_hoh
       ) |>
